@@ -7,11 +7,13 @@ public class TypeGenerator
 {
     public float scale = 0.0f;
     public int size;
+    public float cutoffPoint = 0.25f;
     public float[,] perlinNoise;
 
-    public TypeGenerator(float scale, int size) {
+    public TypeGenerator(float scale, int size, float cutoffPoint) {
         this.scale = scale;
         this.size = size;
+        this.cutoffPoint = cutoffPoint;
         perlinNoise = GeneratePerlinNoise(size);
     }
 
@@ -36,6 +38,7 @@ public class TypeGenerator
         }
 
         noiseTexture.Apply();
+        noiseTexture.filterMode = FilterMode.Point;
         return noiseTexture;
     }
    
@@ -48,17 +51,20 @@ public class TypeGenerator
                 float xCoor = (float)x / size * scale;
                 float yCoor = (float)y / size * scale;
 
-                map[x,y] = (1 - Mathf.PerlinNoise(xCoor, yCoor));
+                float perlin = Mathf.PerlinNoise(xCoor, yCoor);
+                map[x, y] = perlin <= cutoffPoint ? 1 : perlin;
             }
         }
 
         return map;
     }
 
-    public string GetEmotion(int x, int y) {
+    public void SetNumberType(Number toSet) {
+        if (perlinNoise[(int)toSet.GetPosition()[0], (int)toSet.GetPosition()[1]] == 1) {
+            Debug.Log("Normal Number");
+            return;
+        }
 
-        Debug.Log($"{perlinNoise[x,y]}");
 
-        return "";
     }
 }

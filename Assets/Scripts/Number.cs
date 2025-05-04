@@ -80,4 +80,8 @@ public partial class Number : MonoBehaviour
         wiggle.enabled = true;
         boxCollider.enabled = true;
     }
+
+    public void SetNumberType() {
+
+    }
 }

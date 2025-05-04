@@ -24,6 +24,7 @@ public class NumberGenerator : MonoBehaviour
     public TypeGenerator typeGenerator;
     [Space]
     public Renderer noiseSprite;
+    public float cutoffPoint = 0.25f;
 
     public static NumberGenerator instance;
 
@@ -38,20 +39,19 @@ public class NumberGenerator : MonoBehaviour
     public void Start() {
         numberGrid = GenerateGrid();
         gridOffset = new Vector3(-(gridSize / 2) * (xSpacing), -(gridSize / 2) * (ySpacing), 20);
+        gridOffset = new Vector3(-(gridSize / 2) * (xSpacing), -(gridSize / 2) * (ySpacing), 20);
         gridParent.position = gridOffset;
     }
 
     public GameObject[] GenerateGrid() {
-        typeGenerator = new TypeGenerator(40f, gridSize);
+        typeGenerator = new TypeGenerator(20f, gridSize, 0.5f);
         typeGenerator.RenderImage(noiseSprite);
-        typeGenerator.PrintNoise();
         GameObject[] grid = new GameObject[gridSize * gridSize];
         Random.InitState(randomizer.GetHashCode());
 
         for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
                 grid[x + y] = SpawnNumber(Random.Range(0, 9), x * xSpacing, y * ySpacing);
-              //  typeGenerator.GetEmotion(x, y);
             }
         }
 
@@ -78,7 +78,6 @@ public class NumberGenerator : MonoBehaviour
         number.AddComponent<BoxCollider2D>();
 
         numberComp.Setup(wiggler, renderer, number.GetComponent<BoxCollider2D>());
-       
 
         return number;
     }

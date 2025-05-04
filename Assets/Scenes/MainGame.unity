@@ -315,7 +315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350958154}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -126.45, y: -173.65, z: 0}
+  m_LocalPosition: {x: -702.4, y: -638.1, z: 0}
   m_LocalScale: {x: 9.729837, y: 9.729834, z: 9.729834}
   m_Children: []
   m_Father: {fileID: 0}
@@ -421,7 +421,9 @@ MonoBehaviour:
   typeGenerator:
     scale: 0
     size: 100
+    cutoffPoint: 0.7
   noiseSprite: {fileID: 1350958156}
+  cutoffPoint: 0.8
 --- !u!4 &1512883195
 Transform:
   m_ObjectHideFlags: 0
