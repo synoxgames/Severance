@@ -15,9 +15,42 @@ public class CursorNumberHolder : MonoBehaviour
     }
 
     private void Update() {
-        if (isHoldingDown && !Input.GetKey(KeyCode.Mouse0)) ClearList();
+        if (isHoldingDown && !Input.GetKey(KeyCode.Mouse0) && !BinManager.instance.hasBinOpen) ClearList();
         isHoldingDown = Input.GetKey(KeyCode.Mouse0);
         isDeleting = Input.GetKey(KeyCode.Delete);
+
+        if (!isHoldingDown && !BinManager.instance.hasBinOpen) ClearList();
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !BinManager.instance.hasBinOpen) {
+            BinManager.instance.GetBin(0).ChangeOpenStatus(true);
+        } else if (Input.GetKeyUp(KeyCode.Alpha1)) {
+            BinManager.instance.GetBin(0).ChangeOpenStatus(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !BinManager.instance.hasBinOpen) {
+            BinManager.instance.GetBin(1).ChangeOpenStatus(true);
+        } else if (Input.GetKeyUp(KeyCode.Alpha2)) {
+            BinManager.instance.GetBin(1).ChangeOpenStatus(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !BinManager.instance.hasBinOpen) {
+            BinManager.instance.GetBin(2).ChangeOpenStatus(true);
+        } else if (Input.GetKeyUp(KeyCode.Alpha3)) {
+            BinManager.instance.GetBin(2).ChangeOpenStatus(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && !BinManager.instance.hasBinOpen) {
+            BinManager.instance.GetBin(3).ChangeOpenStatus(true);
+        } else if (Input.GetKeyUp(KeyCode.Alpha4)) {
+            BinManager.instance.GetBin(3).ChangeOpenStatus(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5) && !BinManager.instance.hasBinOpen) {
+            BinManager.instance.GetBin(4).ChangeOpenStatus(true);
+        } else if (Input.GetKeyUp(KeyCode.Alpha5)) {
+            BinManager.instance.GetBin(4).ChangeOpenStatus(false);
+        }
     }
 
     public void AddToNumbers(Number toAdd) {

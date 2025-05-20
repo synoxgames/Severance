@@ -9,6 +9,8 @@ public partial class Number : MonoBehaviour
     public float hoverScaler = 2f;
     public float smoothTimer = 1.25f;
 
+    public Emotion emotion;
+
     float timer = 0;
     Vector2 scaleVector = new Vector2(1, 1);
     Vector2 initalVector = new Vector2(1, 1);
@@ -21,10 +23,13 @@ public partial class Number : MonoBehaviour
 
     bool heldDown;
 
-    public void Setup(NumberWiggle wiggle, SpriteRenderer sprite, BoxCollider2D coll) {
+    public void Setup(NumberWiggle wiggle, SpriteRenderer sprite, BoxCollider2D coll, Emotion emotion) {
         this.wiggle = wiggle;
         this.sprite = sprite;
         boxCollider = coll;
+        this.emotion = emotion;
+
+        if (emotion != Emotion.Null) this.sprite.color = Color.red;
 
         OnBecameInvisible();
     }
@@ -83,5 +88,9 @@ public partial class Number : MonoBehaviour
 
     public void SetNumberType() {
 
+    }
+
+    public void MoveToBin() {
+       // transform.position = Vector3.Lerp(transform.position);
     }
 }

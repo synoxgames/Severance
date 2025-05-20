@@ -24,6 +24,7 @@ public class NumberGenerator : MonoBehaviour
     public TypeGenerator typeGenerator;
     [Space]
     public Renderer noiseSprite;
+    public Renderer islandSprite;
     public float cutoffPoint = 0.25f;
 
     public static NumberGenerator instance;
@@ -41,24 +42,26 @@ public class NumberGenerator : MonoBehaviour
         gridOffset = new Vector3(-(gridSize / 2) * (xSpacing), -(gridSize / 2) * (ySpacing), 20);
         gridOffset = new Vector3(-(gridSize / 2) * (xSpacing), -(gridSize / 2) * (ySpacing), 20);
         gridParent.position = gridOffset;
+        typeGenerator.RenderIslandImage(islandSprite);
+        Debug.Log(TypeGenerator.CountDistinctIslands(typeGenerator.islandMap));
     }
 
     public GameObject[] GenerateGrid() {
-        typeGenerator = new TypeGenerator(20f, gridSize, 0.5f);
-        typeGenerator.RenderImage(noiseSprite);
+        typeGenerator = new TypeGenerator(20f, gridSize, cutoffPoint);
+        typeGenerator.RenderImage(noiseSprite);  
         GameObject[] grid = new GameObject[gridSize * gridSize];
         Random.InitState(randomizer.GetHashCode());
 
         for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
-                grid[x + y] = SpawnNumber(Random.Range(0, 9), x * xSpacing, y * ySpacing);
+                grid[x + y] = SpawnNumber(Random.Range(0, 9), x * xSpacing, y * ySpacing, typeGenerator.perlinNoise[x][y]);
             }
         }
 
         return grid;
     }
 
-    public GameObject SpawnNumber(int num, int x = 0, int y = 0) {
+    public GameObject SpawnNumber(int num, int x = 0, int y = 0, float z = 0) {
         GameObject number = new GameObject(num.ToString());
         number.transform.parent = gridParent;
         gridParent.parent.GetComponent<BoxCollider2D>().size = new Vector2(gridSize * xSpacing, gridSize * ySpacing);
@@ -77,7 +80,7 @@ public class NumberGenerator : MonoBehaviour
         wiggler.SetupWiggle(minMoveSpeed, maxMoveSpeed, radius);
         number.AddComponent<BoxCollider2D>();
 
-        numberComp.Setup(wiggler, renderer, number.GetComponent<BoxCollider2D>());
+        numberComp.Setup(wiggler, renderer, number.GetComponent<BoxCollider2D>(), EmotionHandiler.GetEmotion(z));
 
         return number;
     }
